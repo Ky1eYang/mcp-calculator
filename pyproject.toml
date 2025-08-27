@@ -1,0 +1,15 @@
+[project]
+name = "mcp-calculator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12, <3.13"
+dependencies = [
+    "fastmcp>=2.11.3",
+    "mcp>=1.8.1",
+    "mcp-proxy>=0.8.2",
+    "pydantic>=2.11.4",
+    "python-dotenv>=1.0.0",
+    "python-socks>=2.7.2",
+    "websockets>=11.0.3",
+]
