@@ -82,7 +82,7 @@ async def send_message(
         default_factory=dict,
         description="服务器参数, 必带且需要被exclude_args排除, 由服务器自动传入",
     ),
-) -> str:
+) -> dict:
     """
     向客户端异步发送消息
     """
