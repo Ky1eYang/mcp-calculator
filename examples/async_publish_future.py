@@ -20,7 +20,9 @@ mcp = FastMCP("AsyncAction", host="0.0.0.0", port=9999)
 
 
 async def async_action(
-    message: str, system_args: dict
+    message: str, 
+    delay: int = 0,
+    system_args: dict = {},
 ) -> str:
     """
     使用httpx异步发送请求给小智设备custom消息
@@ -45,6 +47,10 @@ async def async_action(
     }
     
     try:
+        if delay > 0:
+            logger.info(f"Delaying for {delay} seconds before sending message.")
+            await asyncio.sleep(delay)
+
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 "https://xiaozhi.me/api/message/push",
@@ -71,6 +77,7 @@ async def async_action(
 @mcp.tool(exclude_args=["system_args"])
 async def send_message(
     message: str = Field(description="str 要发送的消息内容"),
+    delay: int = Field(default=0, description="int 延迟多少秒后发送消息, 默认立刻"),
     system_args: dict = Field(
         default_factory=dict,
         description="服务器参数, 必带且需要被exclude_args排除, 由服务器自动传入",
@@ -81,7 +88,7 @@ async def send_message(
     """
     loop = asyncio.get_event_loop()
     loop.create_task(
-        async_action(message, system_args)
+        async_action(message, delay, system_args)
     )  # 在当前事件循环中运行协程
     logger.info("Scheduling task and return immediately.")
     return {"success":True, "result": "Message is being sent asynchronously."}
