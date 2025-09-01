@@ -27,11 +27,11 @@ async def async_action(
     """
     使用httpx异步发送请求给小智设备custom消息
     """
-    mac_address = system_args.get("macAddress", "f0:9e:9e:0f:24:8c")
+    mac_address:str = system_args.get("macAddress", "00:22:44:88:AA:CC")
     
     # 构建请求数据
     body = {
-        "mac_address": mac_address,
+        "mac_address": mac_address.lower(),
         "type": "custom",
         "message": {
             "payload": {
